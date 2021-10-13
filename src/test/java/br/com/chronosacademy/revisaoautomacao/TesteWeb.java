@@ -1,5 +1,6 @@
 package br.com.chronosacademy.revisaoautomacao;
 
+import br.com.chronosacademy.core.Driver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -15,13 +16,13 @@ import static org.junit.Assert.assertEquals;
 public class TesteWeb {
 
    WebDriver driver;
+   Driver driverWeb;
 
    @Before
    public void inicializaTeste(){
-       WebDriverManager.chromedriver().setup();
-       driver = new ChromeDriver();
+      driverWeb = new Driver("chrome");
 
-       driver.manage().window().maximize();
+      driver = driverWeb.getDriver();
 
        driver.get("https://edu.google.com/");
 
@@ -31,13 +32,26 @@ public class TesteWeb {
     @Test
     public void primeiroTeste(){
 
-        String xpathTitulo = "//*[@id=\"gfe-main-content\"]/section[1]/div[1]/div/div/div/h2";
+        String xpathTitulo = "//section[1]/div[1]//h2";
         WebElement htitulo = driver.findElement(By.xpath(xpathTitulo));
         String titulo = htitulo.getText();
 
         assertEquals("A aprendizagem ao alcance de todos", titulo);
 
    }
+
+    @Test
+    public void segundoTeste(){
+
+        String xpathBotao = "//div[2]/div[1]/div/a[1]/span";
+        WebElement btntitulo = driver.findElement(By.xpath(xpathBotao));
+        btntitulo.click();
+        String xpathtitulo = "//section[1]/div[1]//h2";
+        WebElement htitulo = driver.findElement(By.xpath(xpathtitulo));
+
+        assertEquals("A aprendizagem ao alcance de todos", htitulo.getText());
+
+    }
 
    @After
     public void finalizaTeste(){
