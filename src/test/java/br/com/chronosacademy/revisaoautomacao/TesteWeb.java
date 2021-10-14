@@ -1,6 +1,8 @@
 package br.com.chronosacademy.revisaoautomacao;
 
 import br.com.chronosacademy.core.Driver;
+import br.com.chronosacademy.pages.CursoPage;
+import br.com.chronosacademy.pages.PrincipalPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -17,43 +19,46 @@ public class TesteWeb {
 
    WebDriver driver;
    Driver driverWeb;
+   PrincipalPage principalPage;
+   CursoPage cursoPage;
+
 
    @Before
    public void inicializaTeste(){
       driverWeb = new Driver("chrome");
-
       driver = driverWeb.getDriver();
 
        driver.get("https://edu.google.com/");
+       principalPage = new PrincipalPage(driver);
 
    }
 
 
     @Test
     public void primeiroTeste(){
-
-        String xpathTitulo = "//section[1]/div[1]//h2";
-        WebElement htitulo = driver.findElement(By.xpath(xpathTitulo));
-        String titulo = htitulo.getText();
+        String titulo = principalPage.getTitulo();
 
         assertEquals("A aprendizagem ao alcance de todos", titulo);
 
    }
 
+
     @Test
     public void segundoTeste(){
+        principalPage.clickBotao();
+        cursoPage = new CursoPage(driver);
+        String titulo = cursoPage.getTitulo2();
 
-        String xpathBotao = "//div[2]/div[1]/div/a[1]/span";
-        WebElement btntitulo = driver.findElement(By.xpath(xpathBotao));
-        btntitulo.click();
-        String xpathtitulo = "//section[1]/div[1]//h2";
-        WebElement htitulo = driver.findElement(By.xpath(xpathtitulo));
-
-        assertEquals("A aprendizagem ao alcance de todos", htitulo.getText());
+        assertEquals("A aprendizagem ao alcance de todos", titulo);
 
     }
 
-   @After
+    private WebElement getElement(String xpathtitulo) {
+        return driver.findElement(By.xpath(xpathtitulo));
+    }
+
+
+    @After
     public void finalizaTeste(){
        driver.quit();
    }
