@@ -7,7 +7,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public class Driver {
-    WebDriver driver;
+    public static WebDriver driver;
 
     public Driver(String navegador){
         switch (navegador){
@@ -29,7 +29,7 @@ public class Driver {
         driver.manage().window().maximize();
     }
 
-    public WebDriver getDriver(){
+    public static WebDriver getDriver(){
         return driver;
 
     }
