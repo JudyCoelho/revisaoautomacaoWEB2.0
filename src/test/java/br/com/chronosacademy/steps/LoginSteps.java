@@ -1,20 +1,42 @@
 package br.com.chronosacademy.steps;
 
+import br.com.chronosacademy.core.Driver;
+import br.com.chronosacademy.pages.LoginPage;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Então;
 import io.cucumber.java.pt.Quando;
+import org.junit.Assert;
+
+import java.util.Map;
 
 public class LoginSteps {
+    LoginPage loginPage;
+
+
+    @Before
+    public void iniciaNavegador(){
+        new Driver("chrome");
+    }
+
+    @After
+    public void fechaNavegador(){
+        Driver.getDriver().quit();
+    }
+
     @Dado("que a janela modal esteja sendo exibida")
     public void queAJanelaModalEstejaSendoExibida() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        Driver.getDriver().get("https://www.advantageonlineshopping.com/");
+       loginPage = new LoginPage();
+       loginPage.clickBtnLogin();
+
     }
     @Quando("for realizado um clique fora da modal")
     public void forRealizadoUmCliqueForaDaModal() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+       loginPage.clickDivFechaModal();
+
     }
     @Então("a janela modal deve ser fechada")
     public void aJanelaModalDeveSerFechada() {
@@ -24,27 +46,35 @@ public class LoginSteps {
 
     @Quando("for realizado um clique no icone de fechar da modal")
     public void forRealizadoUmCliqueNoIconeDeFecharDaModal() {
-        
+        loginPage.clickBtnFechar();
     }
 
     @Quando("for realizado um clique em Create New Account")
     public void forRealizadoUmCliqueEmCreateNewAccount() {
-        
+        loginPage.clickLinkCreateAccount();
     }
 
     @Então("a pagina Create Account deve ser exibida")
     public void aPaginaCreateAccountDeveSerExibida() {
-        
+
     }
 
     @Quando("os campos de login forem preenchidos com os valores")
-    public void osCamposDeLoginForemPreenchidosComOsValores() {
-        
+    public void osCamposDeLoginForemPreenchidosComOsValores(Map<String, String> map) {
+        String username = map.get("usuario");
+        String password = map.get("senha");
+        boolean remember = Boolean.parseBoolean(map.get("remember"));
+
+        loginPage.setInpUserName(username);
+        loginPage.setInpPassword(password);
+
+        if (remember) loginPage.clickInpRemember();
+
     }
 
     @Quando("for realizado o clique no botao sign in")
     public void forRealizadoOCliqueNoBotaoSignIn() {
-        
+        loginPage.clickBtnSignIn();
     }
 
     @Entao("deve ser possivel logar no sistema")
@@ -59,5 +89,7 @@ public class LoginSteps {
 
     @Entao("o botao sign in deve permanecer desabilitado")
     public void oBotaoSignInDevePermanecerDesabilitado() {
+        boolean enabled = loginPage.isBtnSignIn();
+        Assert.assertFalse(enabled);
     }
 }
