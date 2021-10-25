@@ -34,14 +34,16 @@ public class LoginSteps {
 
     }
     @Quando("for realizado um clique fora da modal")
-    public void forRealizadoUmCliqueForaDaModal() {
-       loginPage.clickDivFechaModal();
-
-    }
+    public void forRealizadoUmCliqueForaDaModal() { loginPage.clickDivFechaModal(); }
     @Então("a janela modal deve ser fechada")
-    public void aJanelaModalDeveSerFechada() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void aJanelaModalDeveSerFechada() throws Exception {
+        try {
+            loginPage.invisibilityOfBtnFechar();
+        } catch (Exception e){
+            throw new Exception("A janela modal não foi fechada.");
+        }
+
+
     }
 
     @Quando("for realizado um clique no icone de fechar da modal")
