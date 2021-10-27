@@ -1,6 +1,7 @@
 package br.com.chronosacademy.revisaoautomacao;
 
 import br.com.chronosacademy.core.Driver;
+import br.com.chronosacademy.enums.Browser;
 import br.com.chronosacademy.pages.CursoPage;
 import br.com.chronosacademy.pages.PrincipalPage;
 import org.junit.After;
@@ -23,7 +24,7 @@ public class TesteWeb {
 
    @Before
    public void inicializaTeste(){
-      driverWeb = new Driver("chrome");
+      driverWeb = new Driver(Browser.CHROME);
       driver = Driver.getDriver();
 
        driver.get("https://edu.google.com/");
