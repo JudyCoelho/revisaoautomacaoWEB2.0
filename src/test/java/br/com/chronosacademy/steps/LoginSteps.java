@@ -3,6 +3,7 @@ package br.com.chronosacademy.steps;
 import br.com.chronosacademy.core.Driver;
 import br.com.chronosacademy.enums.Browser;
 import br.com.chronosacademy.pages.LoginPage;
+import br.com.chronosacademy.pages.NewAccountPage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 public class LoginSteps {
     LoginPage loginPage;
+    NewAccountPage newAccountPage;
 
 
     @Before
@@ -27,15 +29,19 @@ public class LoginSteps {
         Driver.getDriver().quit();
     }
 
-    @Dado("que a janela modal esteja sendo exibida")
-    public void queAJanelaModalEstejaSendoExibida() {
+    @Dado("que a modal esteja sendo exibida")
+    public void queAModalEstejaSendoExibida() {
         Driver.getDriver().get("https://www.advantageonlineshopping.com/");
        loginPage = new LoginPage();
        loginPage.clickBtnLogin();
+       loginPage.visibilityOfBtnFechar();
+       loginPage.aguardaLoader();
 
     }
     @Quando("for realizado um clique fora da modal")
-    public void forRealizadoUmCliqueForaDaModal() { loginPage.clickDivFechaModal(); }
+    public void forRealizadoUmCliqueForaDaModal() {
+        loginPage.clickDivFechaModal();
+    }
     @Então("a janela modal deve ser fechada")
     public void aJanelaModalDeveSerFechada() throws Exception {
         try {
@@ -59,6 +65,8 @@ public class LoginSteps {
 
     @Então("a pagina Create Account deve ser exibida")
     public void aPaginaCreateAccountDeveSerExibida() {
+        NewAccountPage newAccountPage = new NewAccountPage();
+        Assert.assertEquals("CREATE ACCOUNT", newAccountPage.getTextNewAccount());
 
     }
 
